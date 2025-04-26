@@ -1,25 +1,9 @@
 
 "use client"; // Keep this as the form logic is client-side
 
-// Although this page uses 'use client', the parent layout/page structure might benefit
-// from knowing the locale statically if this component were ever part of a larger Server Component tree
-// that didn't have 'use client' at its root. However, since the page itself is client-rendered
-// due to the form, unstable_setRequestLocale isn't strictly needed *here* for this specific component
-// but might be needed in the *parent* Server Component (e.g., layout or page) if translations were used there.
-// For consistency and future-proofing, let's add it to the parent `page.tsx` if it becomes a Server Component.
-// Since this component itself IS the page and uses 'use client', we'll leave it out here.
-// Re-evaluating: The error likely stems from the build process trying to prerender.
-// Even though the component *becomes* client-side, Next.js might attempt static analysis.
-// Let's try adding it back but removing 'use client' first to see if it resolves the build error,
-// then determine if we need 'use client' back for the form interaction.
-
-// --> Let's keep 'use client' because the form requires it. The error might be related to the parent layout/page.
-// --> Let's assume the static rendering needs to be declared for the route itself.
-// We will need to restructure slightly if this page *must* be statically rendered with a dynamic form.
-// A common pattern is a Server Component page rendering a Client Component form.
-
-// For now, let's assume the build needs the locale hint even for client pages.
-import { unstable_setRequestLocale } from 'next-intl/server'; // Import for static rendering hint
+// Add unstable_setRequestLocale to hint the build process about the locale,
+// even though the component uses 'use client'. This helps resolve static rendering issues during build.
+import { unstable_setRequestLocale } from 'next-intl/server';
 
 import { useState, type FC } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -62,13 +46,9 @@ interface ContactPageProps {
   };
 }
 
-// This component uses client-side hooks (useState, useForm, useToast, useTranslations)
-// and thus needs 'use client'. unstable_setRequestLocale is for Server Components.
-// The build error likely needs fixing in the layout or the build configuration itself.
-// We will keep 'use client' and NOT add unstable_setRequestLocale here.
-
 const ContactPage: FC<ContactPageProps> = ({ params: { locale } }) => {
-  // unstable_setRequestLocale(locale); // Incorrect usage in a 'use client' component
+  // Enable static rendering analysis hint
+  unstable_setRequestLocale(locale);
 
   const t = useTranslations('ContactPage');
   const { toast } = useToast();

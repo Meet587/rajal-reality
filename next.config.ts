@@ -2,7 +2,9 @@
 import type {NextConfig} from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 
-// Update the path to the new i18n config file
+// Keep the path to the existing i18n config file unless moved.
+// The warning suggests moving to ./i18n/request.ts, but the current setup works.
+// If you decide to move the file later, update this path.
 const withNextIntl = createNextIntlPlugin('./i18n.ts');
 
 const nextConfig: NextConfig = {

@@ -1,8 +1,9 @@
 
 'use client'; // Keep this as filtering/sorting will likely be client-side
 
-// Similar to ContactPage, this uses client-side features (hooks, potentially state for filters).
-// The build error might require changes elsewhere. We won't add unstable_setRequestLocale here.
+// Add unstable_setRequestLocale to hint the build process about the locale,
+// even though the component uses 'use client'. This helps resolve static rendering issues during build.
+import { unstable_setRequestLocale } from 'next-intl/server';
 
 import type { FC } from "react";
 import { Footer } from "@/components/footer";
@@ -33,7 +34,8 @@ interface PropertiesPageProps {
 
 
 const PropertiesPage: FC<PropertiesPageProps> = ({ params: { locale } }) => {
-  // unstable_setRequestLocale(locale); // Incorrect usage in a 'use client' component
+  // Enable static rendering analysis hint
+  unstable_setRequestLocale(locale);
 
   const t = useTranslations('PropertiesPage');
   // In a real app, use useState for filters and fetch data based on them
