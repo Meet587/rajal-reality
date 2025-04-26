@@ -21,13 +21,14 @@ export const CtaSection: FC = () => {
           {t('subtitle')} {/* Use translated subtitle */}
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          {/* Pass locale to Link components */}
-          <Link href="/contact" passHref locale={locale}>
+          {/* Update href to include locale */}
+          <Link href={`/${locale}/contact`} passHref>
             <Button size="lg" variant="secondary" className="text-primary hover:bg-accent hover:text-accent-foreground">
               {t('contactButton')} {/* Use translated button text */}
             </Button>
           </Link>
-          <Link href="/properties" passHref locale={locale}>
+          {/* Update href to include locale */}
+          <Link href={`/${locale}/properties`} passHref>
             <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
               {t('propertiesButton')} {/* Use translated button text */}
             </Button>

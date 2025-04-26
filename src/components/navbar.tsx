@@ -25,26 +25,24 @@ export const Navbar: FC = () => {
   const switchLocale = (newLocale: string) => {
     // Remove current locale prefix from pathname
     const currentPathWithoutLocale = pathname.startsWith(`/${locale}`)
-      ? pathname.substring(`/${locale}`.length)
+      ? pathname.substring(`/${locale}`.length) || '/' // Ensure root path '/' is handled
       : pathname;
-    // Handle root path separately
-    const newPath = currentPathWithoutLocale === '' ? '/' : currentPathWithoutLocale;
-    router.push(`/${newLocale}${newPath}`);
+    router.push(`/${newLocale}${currentPathWithoutLocale}`);
   };
 
-  // Define navigation links using translations
+  // Define navigation links using translations and locale-prefixed hrefs
   const navLinks = [
-    { href: "/", label: t('home'), icon: Home },
-    { href: "/properties", label: t('properties'), icon: Building },
-    { href: "/about", label: t('about'), icon: Info },
-    { href: "/contact", label: t('contact'), icon: Mail },
+    { href: `/${locale}/`, label: t('home'), icon: Home },
+    { href: `/${locale}/properties`, label: t('properties'), icon: Building },
+    { href: `/${locale}/about`, label: t('about'), icon: Info },
+    { href: `/${locale}/contact`, label: t('contact'), icon: Mail },
   ];
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        {/* Logo */}
-        <Link href="/" passHref>
+        {/* Logo - Link points to locale-specific home */}
+        <Link href={`/${locale}/`} passHref>
           <span className="text-xl font-bold text-primary cursor-pointer">
             {t('logo')}
           </span>
@@ -53,7 +51,7 @@ export const Navbar: FC = () => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-4">
           {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} passHref locale={locale}>
+            <Link key={link.href} href={link.href} passHref>
               <Button variant="ghost" className="text-foreground hover:bg-accent hover:text-accent-foreground">
                 <link.icon className="mr-2 h-4 w-4" />
                 {link.label}
@@ -109,14 +107,14 @@ export const Navbar: FC = () => {
             </SheetTrigger>
             <SheetContent side="right">
               <div className="grid gap-4 py-6">
-                 {/* Mobile Logo */}
-                 <Link href="/" passHref locale={locale}>
+                 {/* Mobile Logo - Link points to locale-specific home */}
+                 <Link href={`/${locale}/`} passHref>
                     <span className="text-lg font-bold text-primary px-4 pb-4 border-b mb-4 block">
                         {t('logo')}
                     </span>
                  </Link>
                 {navLinks.map((link) => (
-                  <Link key={link.href} href={link.href} passHref locale={locale}>
+                  <Link key={link.href} href={link.href} passHref>
                     <Button variant="ghost" className="w-full justify-start text-foreground hover:bg-accent hover:text-accent-foreground">
                         <link.icon className="mr-2 h-4 w-4" />
                          {link.label}
