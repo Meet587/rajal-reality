@@ -1,3 +1,6 @@
+
+'use client'; // Add this directive for useTranslations
+
 import type { FC } from "react";
 import {
   Card,
@@ -13,41 +16,45 @@ import {
   Palmtree,
   Rocket,
 } from "lucide-react"; // Example icons
-
-const investments = [
-  {
-    icon: TrendingUp,
-    title: "Buyback Deals",
-    description: "Secure investments with guaranteed returns through our exclusive property buyback agreements.",
-  },
-  {
-    icon: Building2,
-    title: "Pre-Lease Properties",
-    description: "Invest in commercial properties with tenants already secured, ensuring immediate rental income.",
-  },
-  {
-    icon: Map,
-    title: "Plotting",
-    description: "Acquire strategically located land parcels with high appreciation potential for future development.",
-  },
-  {
-    icon: Palmtree,
-    title: "Weekend Villas",
-    description: "Own a luxurious getaway home perfect for relaxation or generating rental income.",
-  },
-  {
-    icon: Rocket,
-    title: "Pre-Launch Projects",
-    description: "Gain early access to promising new developments at preferential rates before public launch.",
-  },
-];
+import { useTranslations } from 'next-intl'; // Import useTranslations
 
 export const InvestmentSection: FC = () => {
+  const t = useTranslations('InvestmentSection'); // Initialize translations
+
+  // Define investments using translations
+  const investments = [
+    {
+      icon: TrendingUp,
+      title: t('buybackTitle'),
+      description: t('buybackDescription'),
+    },
+    {
+      icon: Building2,
+      title: t('preLeaseTitle'),
+      description: t('preLeaseDescription'),
+    },
+    {
+      icon: Map,
+      title: t('plottingTitle'),
+      description: t('plottingDescription'),
+    },
+    {
+      icon: Palmtree,
+      title: t('weekendVillasTitle'),
+      description: t('weekendVillasDescription'),
+    },
+    {
+      icon: Rocket,
+      title: t('preLaunchTitle'),
+      description: t('preLaunchDescription'),
+    },
+  ];
+
   return (
     <section className="py-16 lg:py-24 bg-background">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">
-          Explore Unique Investment Opportunities
+          {t('title')} {/* Use translated section title */}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {investments.map((investment, index) => (

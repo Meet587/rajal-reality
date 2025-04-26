@@ -1,31 +1,38 @@
+
+'use client'; // Add this directive for useTranslations
+
 import type { FC } from "react";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Home, Tag, KeyRound } from "lucide-react";
-
-const services = [
-  {
-    icon: Home,
-    title: "Property Buying",
-    description: "Find your dream home or ideal investment property with our expert guidance and extensive listings.",
-  },
-  {
-    icon: Tag,
-    title: "Property Selling",
-    description: "Maximize your property's value and reach the right buyers through our strategic marketing and negotiation skills.",
-  },
-  {
-    icon: KeyRound,
-    title: "Property Rentals",
-    description: "Secure reliable tenants or find the perfect rental property with our comprehensive management and screening services.",
-  },
-];
+import { useTranslations } from 'next-intl'; // Import useTranslations
 
 export const ServicesSection: FC = () => {
+  const t = useTranslations('ServicesSection'); // Initialize translations
+
+  // Define services using translations
+  const services = [
+    {
+      icon: Home,
+      title: t('buyingTitle'),
+      description: t('buyingDescription'),
+    },
+    {
+      icon: Tag,
+      title: t('sellingTitle'),
+      description: t('sellingDescription'),
+    },
+    {
+      icon: KeyRound,
+      title: t('rentalsTitle'),
+      description: t('rentalsDescription'),
+    },
+  ];
+
   return (
     <section className="py-16 lg:py-24 bg-secondary">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">
-          Our Core Real Estate Services
+          {t('title')} {/* Use translated section title */}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((service, index) => (

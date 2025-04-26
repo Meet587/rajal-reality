@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, type FC } from "react";
@@ -19,8 +20,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Footer } from "@/components/footer";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
-// Define Zod schema for form validation
+// Define Zod schema for form validation (messages are handled by react-hook-form, not i18n directly here)
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -35,6 +37,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const ContactPage: FC = () => {
+  const t = useTranslations('ContactPage');
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -65,19 +68,19 @@ const ContactPage: FC = () => {
     //     body: JSON.stringify(values),
     //   });
     //   if (!response.ok) throw new Error('Submission failed');
-    //   toast({ title: "Success!", description: "Your message has been sent." });
+    //   toast({ title: t('toastSuccessTitle'), description: t('toastSuccessDescription') });
     //   form.reset(); // Clear form on success
     // } catch (error) {
     //   console.error("Submission error:", error);
-    //   toast({ title: "Error", description: "Failed to send message. Please try again.", variant: "destructive" });
+    //   toast({ title: t('toastErrorTitle'), description: t('toastErrorDescription'), variant: "destructive" });
     // } finally {
     //   setIsSubmitting(false);
     // }
 
     // Placeholder success notification
     toast({
-      title: "Message Sent (Simulated)",
-      description: "We've received your inquiry and will be in touch soon.",
+      title: t('toastSuccessTitle'),
+      description: t('toastSuccessDescription'),
     });
     form.reset(); // Clear form after simulated submission
     setIsSubmitting(false);
@@ -87,8 +90,8 @@ const ContactPage: FC = () => {
     <div className="flex flex-col min-h-screen">
       <header className="bg-primary text-primary-foreground py-6 shadow-md">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold">Contact Rajal Realty</h1>
-          <p className="text-primary-foreground/80">We're here to help with all your real estate needs.</p>
+          <h1 className="text-3xl font-bold">{t('headerTitle')}</h1>
+          <p className="text-primary-foreground/80">{t('headerDescription')}</p>
         </div>
       </header>
       <main className="flex-grow container mx-auto px-4 py-12 lg:py-16">
@@ -96,8 +99,8 @@ const ContactPage: FC = () => {
           {/* Contact Form Section */}
           <Card className="shadow-lg">
             <CardHeader>
-              <CardTitle className="text-2xl text-primary">Send Us a Message</CardTitle>
-              <CardDescription>Fill out the form below, and we'll get back to you shortly.</CardDescription>
+              <CardTitle className="text-2xl text-primary">{t('formTitle')}</CardTitle>
+              <CardDescription>{t('formDescription')}</CardDescription>
             </CardHeader>
             <CardContent>
               <Form {...form}>
@@ -107,9 +110,9 @@ const ContactPage: FC = () => {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Full Name</FormLabel>
+                        <FormLabel>{t('formNameLabel')}</FormLabel>
                         <FormControl>
-                          <Input placeholder="John Doe" {...field} />
+                          <Input placeholder={t('formNamePlaceholder')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -120,9 +123,9 @@ const ContactPage: FC = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email Address</FormLabel>
+                        <FormLabel>{t('formEmailLabel')}</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="john.doe@example.com" {...field} />
+                          <Input type="email" placeholder={t('formEmailPlaceholder')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -133,9 +136,9 @@ const ContactPage: FC = () => {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Phone Number (Optional)</FormLabel>
+                        <FormLabel>{t('formPhoneLabel')}</FormLabel>
                         <FormControl>
-                          <Input type="tel" placeholder="+1 234 567 890" {...field} />
+                          <Input type="tel" placeholder={t('formPhonePlaceholder')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -146,9 +149,9 @@ const ContactPage: FC = () => {
                     name="subject"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Subject</FormLabel>
+                        <FormLabel>{t('formSubjectLabel')}</FormLabel>
                         <FormControl>
-                          <Input placeholder="Inquiry about Property ID 123" {...field} />
+                          <Input placeholder={t('formSubjectPlaceholder')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -159,10 +162,10 @@ const ContactPage: FC = () => {
                     name="message"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Your Message</FormLabel>
+                        <FormLabel>{t('formMessageLabel')}</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Please provide details about your inquiry..."
+                            placeholder={t('formMessagePlaceholder')}
                             className="resize-none"
                             rows={5}
                             {...field}
@@ -173,7 +176,7 @@ const ContactPage: FC = () => {
                     )}
                   />
                   <Button type="submit" disabled={isSubmitting} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-                    {isSubmitting ? "Sending..." : "Send Message"}
+                    {isSubmitting ? t('formSubmittingButton') : t('formSubmitButton')}
                   </Button>
                 </form>
               </Form>
@@ -184,25 +187,25 @@ const ContactPage: FC = () => {
           <div className="space-y-8">
              <Card className="shadow-lg">
                 <CardHeader>
-                    <CardTitle className="text-2xl text-primary">Get in Touch Directly</CardTitle>
-                    <CardDescription>Reach out to us via phone, email, or visit our office.</CardDescription>
+                    <CardTitle className="text-2xl text-primary">{t('detailsTitle')}</CardTitle>
+                    <CardDescription>{t('detailsDescription')}</CardDescription>
                  </CardHeader>
                  <CardContent className="space-y-4">
                     <div className="flex items-center gap-4">
                          <Mail className="h-6 w-6 text-accent" />
-                         <a href="mailto:info@rajalrealty.com" className="text-foreground hover:text-accent transition-colors">info@rajalrealty.com</a>
+                         <a href={`mailto:${t('email')}`} className="text-foreground hover:text-accent transition-colors">{t('email')}</a>
                     </div>
                      <div className="flex items-center gap-4">
                          <Phone className="h-6 w-6 text-accent" />
-                         <a href="tel:+1234567890" className="text-foreground hover:text-accent transition-colors">+1 (234) 567-890</a>
+                         <a href={`tel:${t('phone')}`} className="text-foreground hover:text-accent transition-colors">{t('phone')}</a>
                          {/* Add more phone numbers if needed */}
                     </div>
                      <div className="flex items-start gap-4">
                          <MapPin className="h-6 w-6 text-accent mt-1" />
                          <p className="text-foreground">
-                         123 Realty Street, Suite 400<br />
-                         Cityville, State 54321<br />
-                         Country
+                         {t('addressLine1')}<br />
+                         {t('addressLine2')}<br />
+                         {t('addressLine3')}
                          </p>
                     </div>
                  </CardContent>

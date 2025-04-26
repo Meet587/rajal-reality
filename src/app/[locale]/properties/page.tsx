@@ -1,3 +1,6 @@
+
+'use client';
+
 import type { FC } from "react";
 import { Footer } from "@/components/footer";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
@@ -6,9 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, Home, Tag, KeyRound, Building, MapPin } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from 'next-intl';
 
 // Sample property data (replace with actual data fetching)
 const sampleProperties = [
+  // Kept sample data structure, titles/locations won't be translated unless fetched dynamically
   { id: 1, title: "Modern Downtown Apartment", type: "Rent", price: "$2,500/mo", location: "City Center", beds: 2, baths: 2, sqft: 1200, image: "https://picsum.photos/seed/prop1/400/300" },
   { id: 2, title: "Spacious Suburban House", type: "Sale", price: "$450,000", location: "Green Valley", beds: 4, baths: 3, sqft: 2500, image: "https://picsum.photos/seed/prop2/400/300" },
   { id: 3, title: "Luxury Villa with Pool", type: "Sale", price: "$1,200,000", location: "Sunset Hills", beds: 5, baths: 5, sqft: 4500, image: "https://picsum.photos/seed/prop3/400/300" },
@@ -18,14 +23,24 @@ const sampleProperties = [
 ];
 
 const PropertiesPage: FC = () => {
+  const t = useTranslations('PropertiesPage');
   // In a real app, use useState for filters and fetch data based on them
+
+  const getPropertyTypeLabel = (type: string) => {
+    switch (type.toLowerCase()) {
+        case 'rent': return t('propertyTypeRent');
+        case 'sale': return t('propertyTypeSale');
+        case 'lease': return t('propertyTypeLease');
+        default: return type;
+    }
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
       <header className="bg-primary text-primary-foreground py-6 shadow-md">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold">Explore Properties</h1>
-          <p className="text-primary-foreground/80">Find your next home, rental, or investment opportunity.</p>
+          <h1 className="text-3xl font-bold">{t('headerTitle')}</h1>
+          <p className="text-primary-foreground/80">{t('headerDescription')}</p>
         </div>
       </header>
 
@@ -33,35 +48,35 @@ const PropertiesPage: FC = () => {
         {/* Filter Section */}
         <Card className="mb-8 shadow-md bg-secondary">
           <CardHeader>
-            <CardTitle className="text-xl flex items-center gap-2"><Search className="w-5 h-5" /> Filter Properties</CardTitle>
+            <CardTitle className="text-xl flex items-center gap-2"><Search className="w-5 h-5" /> {t('filterTitle')}</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <Input placeholder="Search by keyword or location..." />
+            <Input placeholder={t('filterKeywordPlaceholder')} />
             <Select>
               <SelectTrigger>
-                <SelectValue placeholder="Property Type" />
+                <SelectValue placeholder={t('filterTypePlaceholder')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Types</SelectItem>
-                <SelectItem value="sale">For Sale</SelectItem>
-                <SelectItem value="rent">For Rent</SelectItem>
-                <SelectItem value="lease">For Lease</SelectItem>
+                <SelectItem value="all">{t('filterTypeAll')}</SelectItem>
+                <SelectItem value="sale">{t('filterTypeSale')}</SelectItem>
+                <SelectItem value="rent">{t('filterTypeRent')}</SelectItem>
+                <SelectItem value="lease">{t('filterTypeLease')}</SelectItem>
               </SelectContent>
             </Select>
              <Select>
               <SelectTrigger>
-                <SelectValue placeholder="Price Range" />
+                <SelectValue placeholder={t('filterPricePlaceholder')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="any">Any Price</SelectItem>
-                <SelectItem value="<100k">&lt; $100,000</SelectItem>
-                <SelectItem value="100k-300k">$100k - $300k</SelectItem>
-                <SelectItem value="300k-500k">$300k - $500k</SelectItem>
-                <SelectItem value="500k+">$500,000+</SelectItem>
+                <SelectItem value="any">{t('filterPriceAny')}</SelectItem>
+                <SelectItem value="<100k">{t('filterPrice100k')}</SelectItem>
+                <SelectItem value="100k-300k">{t('filterPrice100k300k')}</SelectItem>
+                <SelectItem value="300k-500k">{t('filterPrice300k500k')}</SelectItem>
+                <SelectItem value="500k+">{t('filterPrice500k')}</SelectItem>
               </SelectContent>
             </Select>
              <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-              Apply Filters
+              {t('filterApplyButton')}
             </Button>
           </CardContent>
         </Card>
@@ -73,14 +88,14 @@ const PropertiesPage: FC = () => {
               <div className="relative w-full h-48">
                 <Image
                   src={prop.image}
-                  alt={prop.title}
+                  alt={prop.title} // Alt text might not be translated easily for dynamic images
                   layout="fill"
                   objectFit="cover"
                   className="transition-transform duration-300 group-hover:scale-105"
                 />
                 <span className="absolute top-2 left-2 bg-primary text-primary-foreground px-2 py-1 text-xs font-semibold rounded">
                   {prop.type === 'Rent' || prop.type === 'Lease' ? <KeyRound className="inline w-3 h-3 mr-1"/> : <Tag className="inline w-3 h-3 mr-1"/>}
-                  {prop.type}
+                  {getPropertyTypeLabel(prop.type)}
                 </span>
               </div>
               <CardHeader className="pb-2">
@@ -92,11 +107,11 @@ const PropertiesPage: FC = () => {
               <CardContent className="flex-grow flex flex-col justify-between">
                 <p className="text-xl font-bold text-accent mb-3">{prop.price}</p>
                 <div className="flex items-center justify-between text-sm text-muted-foreground border-t pt-3 mt-auto">
-                  {prop.beds && <span>{prop.beds} Beds</span>}
-                  {prop.baths && <span>{prop.baths} Baths</span>}
-                  {prop.sqft && <span>{prop.sqft} sqft</span>}
-                  {prop.acres && <span>{prop.acres} Acres</span>}
-                   {prop.type === 'Lease' && <span><Building className="inline w-4 h-4 mr-1"/>Commercial</span>}
+                  {prop.beds && <span>{t('propertyBeds', { count: prop.beds })}</span>}
+                  {prop.baths && <span>{t('propertyBaths', { count: prop.baths })}</span>}
+                  {prop.sqft && <span>{t('propertySqft', { count: prop.sqft })}</span>}
+                  {prop.acres && <span>{t('propertyAcres', { count: prop.acres })}</span>}
+                   {prop.type === 'Lease' && <span><Building className="inline w-4 h-4 mr-1"/>{t('propertyCommercial')}</span>}
                 </div>
               </CardContent>
               {/* <CardFooter className="p-4 border-t">
@@ -109,7 +124,7 @@ const PropertiesPage: FC = () => {
         {/* Placeholder if no properties match */}
         {sampleProperties.length === 0 && (
           <div className="text-center py-16 text-muted-foreground">
-            <p>No properties match your current filters.</p>
+            <p>{t('noProperties')}</p>
           </div>
         )}
 
