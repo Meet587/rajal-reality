@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
+import { Navbar } from "@/components/navbar"; // Import Navbar
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +35,8 @@ export default function RootLayout({
           geistMono.variable
         )}
       >
-        {children}
+        <Navbar /> {/* Add Navbar here */}
+        <main>{children}</main> {/* Wrap content in main for semantics */}
         <Toaster />
       </body>
     </html>

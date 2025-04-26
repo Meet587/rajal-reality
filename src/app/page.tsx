@@ -6,7 +6,7 @@ import { Footer } from "@/components/footer";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col"> {/* Changed main to div */}
       <HeroSection />
       <ServicesSection />
       <InvestmentSection />
@@ -14,6 +14,6 @@ export default function Home() {
       {/* <TestimonialSection /> */}
       <CtaSection />
       <Footer />
-    </main>
+    </div>
   );
 }
