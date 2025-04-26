@@ -1,13 +1,13 @@
 
 import type { Metadata } from "next";
-import { useLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
-import { useMessages, NextIntlClientProvider } from 'next-intl';
-import { Navbar } from "@/components/navbar"; // Import Navbar here
+// Remove useMessages import from server component scope
+import { NextIntlClientProvider } from 'next-intl';
+import { Navbar } from "@/components/navbar";
 import { ReactNode } from "react";
-import { Toaster } from "@/components/ui/toaster"; // Import Toaster
-import { cn } from "@/lib/utils"; // Import cn
-import { Geist, Geist_Mono } from "next/font/google"; // Import fonts
+import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/utils";
+import { Geist, Geist_Mono } from "next/font/google";
 
 type Props = {
   children: ReactNode;
@@ -33,11 +33,11 @@ export function generateStaticParams() {
 
 // Generate metadata based on locale
 export async function generateMetadata({ params: { locale } }: Props): Promise<Metadata> {
-  // Ensure locale is valid before attempting to import messages
   if (!locales.includes(locale)) {
     notFound();
   }
   try {
+    // Fetch messages for metadata generation
     const messages = (await import(`../../messages/${locale}.json`)).default;
     return {
       title: messages.Metadata.title,
@@ -45,8 +45,7 @@ export async function generateMetadata({ params: { locale } }: Props): Promise<M
     };
   } catch (error) {
     console.error(`Failed to load messages for locale: ${locale}`, error);
-    // Fallback metadata or rethrow error
-     return {
+    return {
         title: "RealtyReach - Rajal Realty", // Fallback title
         description: "Error loading localized description.", // Fallback description
     };
@@ -54,19 +53,24 @@ export async function generateMetadata({ params: { locale } }: Props): Promise<M
 }
 
 
-export default function LocaleLayout({ children, params: { locale } }: Props) {
+export default async function LocaleLayout({ children, params: { locale } }: Props) {
   // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale as any)) notFound();
 
-  // Using internationalization in Client Components
-  const messages = useMessages();
+  // Fetch messages explicitly for the provider
+  let messages;
+  try {
+    messages = (await import(`../../messages/${locale}.json`)).default;
+  } catch (error) {
+    console.error(`Failed to load messages for locale: ${locale}`, error);
+    notFound(); // Or handle error appropriately
+  }
 
   return (
-    // Removed <html> and <body> tags as they are handled by the root layout
     <NextIntlClientProvider locale={locale} messages={messages}>
         <Navbar />
          {children}
-        <Toaster /> {/* Ensure Toaster is rendered within the provider */}
+        <Toaster />
     </NextIntlClientProvider>
   );
 }
