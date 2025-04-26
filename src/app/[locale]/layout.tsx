@@ -73,3 +73,4 @@ export default function LocaleLayout({ children, params: { locale } }: Props) {
 
 // Root layout should handle <html> and <body> structure and global styles
 // This layout focuses on locale-specific providers and components like Navbar
+
