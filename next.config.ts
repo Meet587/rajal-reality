@@ -1,11 +1,7 @@
-
 import type {NextConfig} from 'next';
-import createNextIntlPlugin from 'next-intl/plugin';
+// Removed next-intl plugin import
 
-// Keep the path to the existing i18n config file unless moved.
-// The warning suggests moving to ./i18n/request.ts, but the current setup works.
-// If you decide to move the file later, update this path.
-const withNextIntl = createNextIntlPlugin('./i18n.ts');
+// Removed withNextIntl wrapper
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -27,4 +23,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withNextIntl(nextConfig);
+export default nextConfig; // Export config directly

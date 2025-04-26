@@ -1,20 +1,14 @@
 
-import { unstable_setRequestLocale } from 'next-intl/server'; // Import for static rendering
 import { HeroSection } from "@/components/hero-section";
 import { ServicesSection } from "@/components/services-section";
 import { InvestmentSection } from "@/components/investment-section";
 import { CtaSection } from "@/components/cta-section";
 import { Footer } from "@/components/footer";
 
-interface HomeProps {
-  params: {
-    locale: string;
-  };
-}
+// Removed locale param and unstable_setRequestLocale
 
-export default function Home({ params: { locale } }: HomeProps) {
-  // Enable static rendering
-  unstable_setRequestLocale(locale);
+export default function Home() {
+  // Removed locale logic
 
   return (
     <div className="flex min-h-screen flex-col">

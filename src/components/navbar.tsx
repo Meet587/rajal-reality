@@ -1,56 +1,38 @@
-
 "use client";
 
 import type { FC } from "react";
 import Link from "next/link";
 import Image from "next/image"; // Import Image component
-import { Home, Building, Info, Mail, Languages, Menu } from "lucide-react"; // Icons
+import { Home, Building, Info, Mail, Menu } from "lucide-react"; // Icons (Removed Languages)
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useLocale, useTranslations } from 'next-intl';
-import { usePathname, useRouter } from 'next/navigation'; // Use next/navigation for App Router
+// Removed i18n imports: useLocale, useTranslations, DropdownMenu components
+// Removed useRouter and usePathname as locale switching is gone
 
 export const Navbar: FC = () => {
-  const t = useTranslations('Navbar');
-  const locale = useLocale();
-  const router = useRouter();
-  const pathname = usePathname();
+  // Removed t function, locale, router, pathname
+  // Removed switchLocale function
 
-  // Function to switch locale
-  const switchLocale = (newLocale: string) => {
-    // Remove current locale prefix from pathname
-    const currentPathWithoutLocale = pathname.startsWith(`/${locale}`)
-      ? pathname.substring(`/${locale}`.length) || '/' // Ensure root path '/' is handled
-      : pathname;
-    router.push(`/${newLocale}${currentPathWithoutLocale}`);
-  };
-
-  // Define navigation links using translations and locale-prefixed hrefs
+  // Define navigation links with hardcoded English labels and non-locale paths
   const navLinks = [
-    { href: `/${locale}/`, label: t('home'), icon: Home },
-    { href: `/${locale}/properties`, label: t('properties'), icon: Building },
-    { href: `/${locale}/about`, label: t('about'), icon: Info },
-    { href: `/${locale}/contact`, label: t('contact'), icon: Mail },
+    { href: `/`, label: 'Home', icon: Home },
+    { href: `/properties`, label: 'Properties', icon: Building },
+    { href: `/about`, label: 'About Us', icon: Info },
+    { href: `/contact`, label: 'Contact Us', icon: Mail },
   ];
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        {/* Logo - Link points to locale-specific home */}
-        <Link href={`/${locale}/`} passHref legacyBehavior>
-          <a className="flex items-center cursor-pointer"> {/* Wrap Image in anchor for legacyBehavior */}
+        {/* Logo - Link points to root home */}
+        <Link href={`/`} passHref legacyBehavior>
+          <a className="flex items-center cursor-pointer">
              <Image
-               src="/logo.svg" // Path to the logo in the public folder
-               alt={t('logoAlt')} // Use translated alt text
-               width={120} // Set appropriate width
-               height={32} // Set appropriate height
-               priority // Prioritize loading the logo
+               src="/logo.svg"
+               alt="Rajal Realty Logo" // Hardcoded English alt text
+               width={120}
+               height={32}
+               priority
              />
           </a>
         </Link>
@@ -60,7 +42,7 @@ export const Navbar: FC = () => {
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} passHref legacyBehavior>
               <Button variant="ghost" className="text-foreground hover:bg-accent/80 hover:text-accent-foreground transition-colors duration-200" asChild>
-                 <a> {/* Wrap content in an anchor tag for legacyBehavior */}
+                 <a>
                     <link.icon className="mr-2 h-4 w-4" />
                     {link.label}
                  </a>
@@ -68,77 +50,30 @@ export const Navbar: FC = () => {
             </Link>
           ))}
 
-          {/* Language Switcher Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="hover:bg-accent/80 hover:text-accent-foreground transition-colors duration-200">
-                <Languages className="h-5 w-5" />
-                <span className="sr-only">{t('language')}</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                onClick={() => switchLocale('en')}
-                disabled={locale === 'en'}
-                className="hover:bg-accent/80 focus:bg-accent/80 transition-colors duration-150 cursor-pointer"
-              >
-                {t('english')}
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => switchLocale('gu')}
-                disabled={locale === 'gu'}
-                className="hover:bg-accent/80 focus:bg-accent/80 transition-colors duration-150 cursor-pointer"
-              >
-                {t('gujarati')}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {/* Removed Language Switcher Dropdown */}
         </div>
 
         {/* Mobile Navigation */}
         <div className="md:hidden flex items-center gap-2">
-           {/* Language Switcher Dropdown (Mobile) */}
-           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="hover:bg-accent/80 hover:text-accent-foreground transition-colors duration-200">
-                <Languages className="h-5 w-5" />
-                <span className="sr-only">{t('language')}</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                onClick={() => switchLocale('en')}
-                disabled={locale === 'en'}
-                className="hover:bg-accent/80 focus:bg-accent/80 transition-colors duration-150 cursor-pointer"
-              >
-                 {t('english')}
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                 onClick={() => switchLocale('gu')}
-                 disabled={locale === 'gu'}
-                 className="hover:bg-accent/80 focus:bg-accent/80 transition-colors duration-150 cursor-pointer"
-              >
-                 {t('gujarati')}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+           {/* Removed Language Switcher Dropdown (Mobile) */}
 
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon">
                 <Menu className="h-6 w-6" />
-                <span className="sr-only">{t('toggleNavigation')}</span>
+                {/* Hardcoded English screen reader text */}
+                <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
               <div className="grid gap-4 py-6">
-                 {/* Mobile Logo - Link points to locale-specific home */}
-                 <Link href={`/${locale}/`} passHref legacyBehavior>
-                    <a className="flex items-center px-4 pb-4 border-b mb-4 cursor-pointer"> {/* Wrap Image in anchor */}
+                 {/* Mobile Logo - Link points to root home */}
+                 <Link href={`/`} passHref legacyBehavior>
+                    <a className="flex items-center px-4 pb-4 border-b mb-4 cursor-pointer">
                          <Image
-                           src="/logo.svg" // Path to the logo
-                           alt={t('logoAlt')} // Use translated alt text
-                           width={100} // Slightly smaller for mobile sheet
+                           src="/logo.svg"
+                           alt="Rajal Realty Logo" // Hardcoded English alt text
+                           width={100}
                            height={27}
                          />
                     </a>
@@ -146,7 +81,7 @@ export const Navbar: FC = () => {
                 {navLinks.map((link) => (
                   <Link key={link.href} href={link.href} passHref legacyBehavior>
                     <Button variant="ghost" className="w-full justify-start text-foreground hover:bg-accent/80 hover:text-accent-foreground transition-colors duration-200" asChild>
-                       <a> {/* Wrap content in an anchor tag for legacyBehavior */}
+                       <a>
                          <link.icon className="mr-2 h-4 w-4" />
                          {link.label}
                        </a>

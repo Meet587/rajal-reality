@@ -1,10 +1,6 @@
 
 "use client"; // Keep this as the form logic is client-side
 
-// Add unstable_setRequestLocale to hint the build process about the locale,
-// even though the component uses 'use client'. This helps resolve static rendering issues during build.
-import { unstable_setRequestLocale } from 'next-intl/server';
-
 import { useState, type FC } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -24,9 +20,11 @@ import { useToast } from "@/hooks/use-toast";
 import { Footer } from "@/components/footer";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Mail, Phone, MapPin } from "lucide-react";
-import { useTranslations } from 'next-intl';
 
-// Define Zod schema for form validation (messages are handled by react-hook-form, not i18n directly here)
+// Removed locale param and unstable_setRequestLocale
+// Removed useTranslations
+
+// Define Zod schema for form validation (using English messages)
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -40,17 +38,10 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-interface ContactPageProps {
-  params: {
-    locale: string;
-  };
-}
+// Removed interface ContactPageProps
 
-const ContactPage: FC<ContactPageProps> = ({ params: { locale } }) => {
-  // Enable static rendering analysis hint
-  unstable_setRequestLocale(locale);
-
-  const t = useTranslations('ContactPage');
+const ContactPage: FC = () => {
+  // Removed locale logic and t function
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -72,28 +63,10 @@ const ContactPage: FC<ContactPageProps> = ({ params: { locale } }) => {
     // Simulate API call delay
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    // In a real app, you'd send this data to your backend/API endpoint here.
-    // Example:
-    // try {
-    //   const response = await fetch('/api/contact', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(values),
-    //   });
-    //   if (!response.ok) throw new Error('Submission failed');
-    //   toast({ title: t('toastSuccessTitle'), description: t('toastSuccessDescription') });
-    //   form.reset(); // Clear form on success
-    // } catch (error) {
-    //   console.error("Submission error:", error);
-    //   toast({ title: t('toastErrorTitle'), description: t('toastErrorDescription'), variant: "destructive" });
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
-
-    // Placeholder success notification
+    // Placeholder success notification with English text
     toast({
-      title: t('toastSuccessTitle'),
-      description: t('toastSuccessDescription'),
+      title: "Message Sent (Simulated)",
+      description: "We've received your inquiry and will be in touch soon.",
     });
     form.reset(); // Clear form after simulated submission
     setIsSubmitting(false);
@@ -112,13 +85,20 @@ const ContactPage: FC<ContactPageProps> = ({ params: { locale } }) => {
         });
     };
 
+  // Hardcoded contact details
+  const contactEmail = "rajal.associate@gmail.com";
+  const contactPhone = "+91 90999 04235 / +91 94296 86726";
+  const addressLine1 = "Shivranjani Society, Shivranjani Cross Road";
+  const addressLine2 = "Satellite, Ahmedabad";
+  // const addressLine3 = ""; // Keep if needed
 
   return (
     <div className="flex flex-col min-h-screen">
       <header className="bg-primary text-primary-foreground py-6 shadow-md">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold">{t('headerTitle')}</h1>
-          <p className="text-primary-foreground/80">{t('headerDescription')}</p>
+          {/* Hardcoded English text */}
+          <h1 className="text-3xl font-bold">Contact Rajal Realty</h1>
+          <p className="text-primary-foreground/80">We're here to help with all your real estate needs.</p>
         </div>
       </header>
       <main className="flex-grow container mx-auto px-4 py-12 lg:py-16">
@@ -126,8 +106,9 @@ const ContactPage: FC<ContactPageProps> = ({ params: { locale } }) => {
           {/* Contact Form Section */}
           <Card className="shadow-lg">
             <CardHeader>
-              <CardTitle className="text-2xl text-primary">{t('formTitle')}</CardTitle>
-              <CardDescription>{t('formDescription')}</CardDescription>
+              {/* Hardcoded English text */}
+              <CardTitle className="text-2xl text-primary">Send Us a Message</CardTitle>
+              <CardDescription>Fill out the form below, and we'll get back to you shortly.</CardDescription>
             </CardHeader>
             <CardContent>
               <Form {...form}>
@@ -137,9 +118,10 @@ const ContactPage: FC<ContactPageProps> = ({ params: { locale } }) => {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t('formNameLabel')}</FormLabel>
+                        {/* Hardcoded English text */}
+                        <FormLabel>Full Name</FormLabel>
                         <FormControl>
-                          <Input placeholder={t('formNamePlaceholder')} {...field} />
+                          <Input placeholder="John Doe" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -150,9 +132,10 @@ const ContactPage: FC<ContactPageProps> = ({ params: { locale } }) => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t('formEmailLabel')}</FormLabel>
+                        {/* Hardcoded English text */}
+                        <FormLabel>Email Address</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder={t('formEmailPlaceholder')} {...field} />
+                          <Input type="email" placeholder="john.doe@example.com" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -163,9 +146,10 @@ const ContactPage: FC<ContactPageProps> = ({ params: { locale } }) => {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t('formPhoneLabel')}</FormLabel>
+                         {/* Hardcoded English text */}
+                        <FormLabel>Phone Number (Optional)</FormLabel>
                         <FormControl>
-                          <Input type="tel" placeholder={t('formPhonePlaceholder')} {...field} />
+                          <Input type="tel" placeholder="+91 90999 04235" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -176,9 +160,10 @@ const ContactPage: FC<ContactPageProps> = ({ params: { locale } }) => {
                     name="subject"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t('formSubjectLabel')}</FormLabel>
+                         {/* Hardcoded English text */}
+                        <FormLabel>Subject</FormLabel>
                         <FormControl>
-                          <Input placeholder={t('formSubjectPlaceholder')} {...field} />
+                          <Input placeholder="Inquiry about Property ID 123" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -189,10 +174,11 @@ const ContactPage: FC<ContactPageProps> = ({ params: { locale } }) => {
                     name="message"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t('formMessageLabel')}</FormLabel>
+                         {/* Hardcoded English text */}
+                        <FormLabel>Your Message</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder={t('formMessagePlaceholder')}
+                            placeholder="Please provide details about your inquiry..."
                             className="resize-none"
                             rows={5}
                             {...field}
@@ -203,7 +189,8 @@ const ContactPage: FC<ContactPageProps> = ({ params: { locale } }) => {
                     )}
                   />
                   <Button type="submit" disabled={isSubmitting} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-                    {isSubmitting ? t('formSubmittingButton') : t('formSubmitButton')}
+                    {/* Hardcoded English text */}
+                    {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
               </Form>
@@ -214,26 +201,27 @@ const ContactPage: FC<ContactPageProps> = ({ params: { locale } }) => {
           <div className="space-y-8">
              <Card className="shadow-lg">
                 <CardHeader>
-                    <CardTitle className="text-2xl text-primary">{t('detailsTitle')}</CardTitle>
-                    <CardDescription>{t('detailsDescription')}</CardDescription>
+                     {/* Hardcoded English text */}
+                    <CardTitle className="text-2xl text-primary">Get in Touch Directly</CardTitle>
+                    <CardDescription>Reach out to us via phone, email, or visit our office.</CardDescription>
                  </CardHeader>
                  <CardContent className="space-y-4">
                     <div className="flex items-center gap-4">
                          <Mail className="h-6 w-6 text-accent" />
-                         <a href={`mailto:${t('email')}`} className="text-foreground hover:text-accent transition-colors">{t('email')}</a>
+                         <a href={`mailto:${contactEmail}`} className="text-foreground hover:text-accent transition-colors">{contactEmail}</a>
                     </div>
                      <div className="flex items-start gap-4">
                          <Phone className="h-6 w-6 text-accent mt-1" />
                          <div>
-                             {renderPhoneLinks(t('phone'))}
+                             {renderPhoneLinks(contactPhone)}
                          </div>
                     </div>
                      <div className="flex items-start gap-4">
                          <MapPin className="h-6 w-6 text-accent mt-1" />
                          <p className="text-foreground">
-                         {t('addressLine1')}<br />
-                         {t('addressLine2')}
-                         {t('addressLine3') && <><br />{t('addressLine3')}</>}
+                         {addressLine1}<br />
+                         {addressLine2}
+                         {/* {addressLine3 && <><br />{addressLine3}</>} */}
                          </p>
                     </div>
                  </CardContent>

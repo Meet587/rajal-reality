@@ -1,9 +1,4 @@
-
 'use client'; // Keep this as filtering/sorting will likely be client-side
-
-// Add unstable_setRequestLocale to hint the build process about the locale,
-// even though the component uses 'use client'. This helps resolve static rendering issues during build.
-import { unstable_setRequestLocale } from 'next-intl/server';
 
 import type { FC } from "react";
 import { Footer } from "@/components/footer";
@@ -13,11 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, Home, Tag, KeyRound, Building, MapPin } from "lucide-react";
 import Image from "next/image";
-import { useTranslations } from 'next-intl';
+
+// Removed locale param and unstable_setRequestLocale
+// Removed useTranslations
 
 // Sample property data (replace with actual data fetching)
 const sampleProperties = [
-  // Kept sample data structure, titles/locations won't be translated unless fetched dynamically
+  // Kept sample data structure, using English titles/locations
   { id: 1, title: "Modern Downtown Apartment", type: "Rent", price: "$2,500/mo", location: "City Center", beds: 2, baths: 2, sqft: 1200, image: "https://picsum.photos/seed/prop1/400/300" },
   { id: 2, title: "Spacious Suburban House", type: "Sale", price: "$450,000", location: "Green Valley", beds: 4, baths: 3, sqft: 2500, image: "https://picsum.photos/seed/prop2/400/300" },
   { id: 3, title: "Luxury Villa with Pool", type: "Sale", price: "$1,200,000", location: "Sunset Hills", beds: 5, baths: 5, sqft: 4500, image: "https://picsum.photos/seed/prop3/400/300" },
@@ -26,35 +23,24 @@ const sampleProperties = [
   { id: 6, title: "Vacant Land Parcel", type: "Sale", price: "$150,000", location: "Rural Outskirts", acres: 5, image: "https://picsum.photos/seed/prop6/400/300" },
 ];
 
-interface PropertiesPageProps {
-  params: {
-    locale: string;
-  };
-}
+// Removed interface PropertiesPageProps
 
-
-const PropertiesPage: FC<PropertiesPageProps> = ({ params: { locale } }) => {
-  // Enable static rendering analysis hint
-  unstable_setRequestLocale(locale);
-
-  const t = useTranslations('PropertiesPage');
+const PropertiesPage: FC = () => {
+  // Removed locale logic and t function
   // In a real app, use useState for filters and fetch data based on them
 
+  // Property type label remains the same (English)
   const getPropertyTypeLabel = (type: string) => {
-    switch (type.toLowerCase()) {
-        case 'rent': return t('propertyTypeRent');
-        case 'sale': return t('propertyTypeSale');
-        case 'lease': return t('propertyTypeLease');
-        default: return type;
-    }
+    return type; // Just return the type directly
   }
 
   return (
     <div className="flex flex-col min-h-screen">
       <header className="bg-primary text-primary-foreground py-6 shadow-md">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold">{t('headerTitle')}</h1>
-          <p className="text-primary-foreground/80">{t('headerDescription')}</p>
+          {/* Hardcoded English text */}
+          <h1 className="text-3xl font-bold">Explore Properties</h1>
+          <p className="text-primary-foreground/80">Find your next home, rental, or investment opportunity.</p>
         </div>
       </header>
 
@@ -62,35 +48,42 @@ const PropertiesPage: FC<PropertiesPageProps> = ({ params: { locale } }) => {
         {/* Filter Section */}
         <Card className="mb-8 shadow-md bg-secondary">
           <CardHeader>
-            <CardTitle className="text-xl flex items-center gap-2"><Search className="w-5 h-5" /> {t('filterTitle')}</CardTitle>
+            {/* Hardcoded English text */}
+            <CardTitle className="text-xl flex items-center gap-2"><Search className="w-5 h-5" /> Filter Properties</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <Input placeholder={t('filterKeywordPlaceholder')} />
+            {/* Hardcoded English text */}
+            <Input placeholder="Search by keyword or location..." />
             <Select>
               <SelectTrigger>
-                <SelectValue placeholder={t('filterTypePlaceholder')} />
+                {/* Hardcoded English text */}
+                <SelectValue placeholder="Property Type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t('filterTypeAll')}</SelectItem>
-                <SelectItem value="sale">{t('filterTypeSale')}</SelectItem>
-                <SelectItem value="rent">{t('filterTypeRent')}</SelectItem>
-                <SelectItem value="lease">{t('filterTypeLease')}</SelectItem>
+                {/* Hardcoded English text */}
+                <SelectItem value="all">All Types</SelectItem>
+                <SelectItem value="sale">For Sale</SelectItem>
+                <SelectItem value="rent">For Rent</SelectItem>
+                <SelectItem value="lease">For Lease</SelectItem>
               </SelectContent>
             </Select>
              <Select>
               <SelectTrigger>
-                <SelectValue placeholder={t('filterPricePlaceholder')} />
+                 {/* Hardcoded English text */}
+                <SelectValue placeholder="Price Range" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="any">{t('filterPriceAny')}</SelectItem>
-                <SelectItem value="<100k">{t('filterPrice100k')}</SelectItem>
-                <SelectItem value="100k-300k">{t('filterPrice100k300k')}</SelectItem>
-                <SelectItem value="300k-500k">{t('filterPrice300k500k')}</SelectItem>
-                <SelectItem value="500k+">{t('filterPrice500k')}</SelectItem>
+                 {/* Hardcoded English text */}
+                <SelectItem value="any">Any Price</SelectItem>
+                <SelectItem value="<100k">&lt; $100,000</SelectItem>
+                <SelectItem value="100k-300k">$100k - $300k</SelectItem>
+                <SelectItem value="300k-500k">$300k - $500k</SelectItem>
+                <SelectItem value="500k+">$500,000+</SelectItem>
               </SelectContent>
             </Select>
              <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-              {t('filterApplyButton')}
+              {/* Hardcoded English text */}
+              Apply Filters
             </Button>
           </CardContent>
         </Card>
@@ -102,17 +95,17 @@ const PropertiesPage: FC<PropertiesPageProps> = ({ params: { locale } }) => {
               key={prop.id}
               className="group overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:scale-[1.03] flex flex-col"
             >
-              <div className="relative w-full h-48 overflow-hidden"> {/* Added overflow-hidden here */}
+              <div className="relative w-full h-48 overflow-hidden">
                 <Image
                   src={prop.image}
-                  alt={prop.title} // Alt text might not be translated easily for dynamic images
-                  fill // Changed layout="fill"
-                  style={{ objectFit: "cover" }} // Changed objectFit="cover"
-                  className="transition-transform duration-300 ease-in-out group-hover:scale-110" /* Image zoom effect */
+                  alt={prop.title} // Alt text remains English
+                  fill
+                  style={{ objectFit: "cover" }}
+                  className="transition-transform duration-300 ease-in-out group-hover:scale-110"
                 />
                 <span className="absolute top-2 left-2 bg-primary text-primary-foreground px-2 py-1 text-xs font-semibold rounded z-10">
                   {prop.type === 'Rent' || prop.type === 'Lease' ? <KeyRound className="inline w-3 h-3 mr-1"/> : <Tag className="inline w-3 h-3 mr-1"/>}
-                  {getPropertyTypeLabel(prop.type)}
+                  {getPropertyTypeLabel(prop.type)} {/* Displays English type */}
                 </span>
               </div>
               <CardHeader className="pb-2">
@@ -124,16 +117,14 @@ const PropertiesPage: FC<PropertiesPageProps> = ({ params: { locale } }) => {
               <CardContent className="flex-grow flex flex-col justify-between">
                 <p className="text-xl font-bold text-accent mb-3">{prop.price}</p>
                 <div className="flex items-center justify-between text-sm text-muted-foreground border-t pt-3 mt-auto">
-                  {prop.beds && <span>{t('propertyBeds', { count: prop.beds })}</span>}
-                  {prop.baths && <span>{t('propertyBaths', { count: prop.baths })}</span>}
-                  {prop.sqft && <span>{t('propertySqft', { count: prop.sqft })}</span>}
-                  {prop.acres && <span>{t('propertyAcres', { count: prop.acres })}</span>}
-                   {prop.type === 'Lease' && <span><Building className="inline w-4 h-4 mr-1"/>{t('propertyCommercial')}</span>}
+                  {/* Hardcoded English text */}
+                  {prop.beds && <span>{prop.beds} Beds</span>}
+                  {prop.baths && <span>{prop.baths} Baths</span>}
+                  {prop.sqft && <span>{prop.sqft} sqft</span>}
+                  {prop.acres && <span>{prop.acres} Acres</span>}
+                   {prop.type === 'Lease' && <span><Building className="inline w-4 h-4 mr-1"/>Commercial</span>}
                 </div>
               </CardContent>
-              {/* <CardFooter className="p-4 border-t">
-                 <Button variant="outline" className="w-full">View Details</Button>
-              </CardFooter> */}
             </Card>
           ))}
         </div>
@@ -141,7 +132,8 @@ const PropertiesPage: FC<PropertiesPageProps> = ({ params: { locale } }) => {
         {/* Placeholder if no properties match */}
         {sampleProperties.length === 0 && (
           <div className="text-center py-16 text-muted-foreground">
-            <p>{t('noProperties')}</p>
+            {/* Hardcoded English text */}
+            <p>No properties match your current filters.</p>
           </div>
         )}
 
