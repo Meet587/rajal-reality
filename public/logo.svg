@@ -1,0 +1,9 @@
+<svg width="150" height="40" viewBox="0 0 150 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Placeholder for the house icon part -->
+  <path d="M10 40 L10 20 L0 20 L25 0 L50 20 L40 20 L40 40 Z" fill="#DC143C"/> <!-- Crimson red approximation -->
+  <!-- Placeholder for the text part "Rajal Realty" -->
+  <text x="60" y="15" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#003366">Rajal</text> <!-- Deep blue -->
+  <text x="60" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#003366">Realty</text> <!-- Deep blue -->
+  <!-- Placeholder for the tagline "MORE THAN DREAMS" - This part is complex to replicate exactly without text elements -->
+  <!-- <text x="10" y="55" font-family="Arial, sans-serif" font-size="8" fill="#DC143C">MORE THAN DREAMS</text> -->
+</svg>

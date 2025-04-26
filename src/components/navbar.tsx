@@ -3,6 +3,7 @@
 
 import type { FC } from "react";
 import Link from "next/link";
+import Image from "next/image"; // Import Image component
 import { Home, Building, Info, Mail, Languages, Menu } from "lucide-react"; // Icons
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -42,10 +43,16 @@ export const Navbar: FC = () => {
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo - Link points to locale-specific home */}
-        <Link href={`/${locale}/`}>
-          <span className="text-xl font-bold text-primary cursor-pointer">
-            {t('logo')}
-          </span>
+        <Link href={`/${locale}/`} passHref legacyBehavior>
+          <a className="flex items-center cursor-pointer"> {/* Wrap Image in anchor for legacyBehavior */}
+             <Image
+               src="/logo.svg" // Path to the logo in the public folder
+               alt={t('logoAlt')} // Use translated alt text
+               width={120} // Set appropriate width
+               height={32} // Set appropriate height
+               priority // Prioritize loading the logo
+             />
+          </a>
         </Link>
 
         {/* Desktop Navigation */}
@@ -110,10 +117,15 @@ export const Navbar: FC = () => {
             <SheetContent side="right">
               <div className="grid gap-4 py-6">
                  {/* Mobile Logo - Link points to locale-specific home */}
-                 <Link href={`/${locale}/`}>
-                    <span className="text-lg font-bold text-primary px-4 pb-4 border-b mb-4 block">
-                        {t('logo')}
-                    </span>
+                 <Link href={`/${locale}/`} passHref legacyBehavior>
+                    <a className="flex items-center px-4 pb-4 border-b mb-4 cursor-pointer"> {/* Wrap Image in anchor */}
+                         <Image
+                           src="/logo.svg" // Path to the logo
+                           alt={t('logoAlt')} // Use translated alt text
+                           width={100} // Slightly smaller for mobile sheet
+                           height={27}
+                         />
+                    </a>
                  </Link>
                 {navLinks.map((link) => (
                   <Link key={link.href} href={link.href} passHref legacyBehavior>

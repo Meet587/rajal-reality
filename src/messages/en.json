@@ -6,6 +6,7 @@
   },
   "Navbar": {
     "logo": "Rajal Realty",
+    "logoAlt": "Rajal Realty Logo",
     "home": "Home",
     "properties": "Properties",
     "about": "About Us",
@@ -121,4 +122,3 @@
     "noProperties": "No properties match your current filters."
   }
 }
-
