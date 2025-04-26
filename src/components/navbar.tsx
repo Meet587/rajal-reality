@@ -42,7 +42,7 @@ export const Navbar: FC = () => {
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo - Link points to locale-specific home */}
-        <Link href={`/${locale}/`} passHref>
+        <Link href={`/${locale}/`}>
           <span className="text-xl font-bold text-primary cursor-pointer">
             {t('logo')}
           </span>
@@ -51,10 +51,12 @@ export const Navbar: FC = () => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-4">
           {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} passHref>
-              <Button variant="ghost" className="text-foreground hover:bg-accent hover:text-accent-foreground">
-                <link.icon className="mr-2 h-4 w-4" />
-                {link.label}
+            <Link key={link.href} href={link.href} passHref legacyBehavior>
+              <Button variant="ghost" className="text-foreground hover:bg-accent hover:text-accent-foreground" asChild>
+                 <a> {/* Wrap content in an anchor tag for legacyBehavior */}
+                    <link.icon className="mr-2 h-4 w-4" />
+                    {link.label}
+                 </a>
               </Button>
             </Link>
           ))}
@@ -108,16 +110,18 @@ export const Navbar: FC = () => {
             <SheetContent side="right">
               <div className="grid gap-4 py-6">
                  {/* Mobile Logo - Link points to locale-specific home */}
-                 <Link href={`/${locale}/`} passHref>
+                 <Link href={`/${locale}/`}>
                     <span className="text-lg font-bold text-primary px-4 pb-4 border-b mb-4 block">
                         {t('logo')}
                     </span>
                  </Link>
                 {navLinks.map((link) => (
-                  <Link key={link.href} href={link.href} passHref>
-                    <Button variant="ghost" className="w-full justify-start text-foreground hover:bg-accent hover:text-accent-foreground">
-                        <link.icon className="mr-2 h-4 w-4" />
+                  <Link key={link.href} href={link.href} passHref legacyBehavior>
+                    <Button variant="ghost" className="w-full justify-start text-foreground hover:bg-accent hover:text-accent-foreground" asChild>
+                       <a> {/* Wrap content in an anchor tag for legacyBehavior */}
+                         <link.icon className="mr-2 h-4 w-4" />
                          {link.label}
+                       </a>
                     </Button>
                   </Link>
                 ))}
