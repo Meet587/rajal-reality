@@ -3,11 +3,13 @@
 
 import type { FC } from "react";
 import Image from "next/image";
+import Link from 'next/link'; // Import Link
 import { Button } from "@/components/ui/button";
-import { useTranslations } from 'next-intl'; // Import useTranslations
+import { useLocale, useTranslations } from 'next-intl'; // Import useTranslations and useLocale
 
 export const HeroSection: FC = () => {
   const t = useTranslations('HeroSection'); // Initialize translations
+  const locale = useLocale(); // Get current locale
 
   return (
     <section className="relative w-full h-[60vh] min-h-[400px] flex items-center justify-center text-center bg-gradient-to-r from-primary to-blue-800 text-primary-foreground p-8 overflow-hidden">
@@ -27,10 +29,12 @@ export const HeroSection: FC = () => {
         <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto drop-shadow-sm">
           {t('subtitle')} {/* Use translated subtitle */}
         </p>
-        {/* Optional: Link the button if needed */}
-        <Button size="lg" variant="secondary" className="text-primary hover:bg-accent hover:text-accent-foreground">
-          {t('button')} {/* Use translated button text */}
-        </Button>
+        {/* Link the button to the properties page with locale */}
+        <Link href={`/${locale}/properties`} passHref legacyBehavior>
+            <Button asChild size="lg" variant="secondary" className="text-primary hover:bg-accent hover:text-accent-foreground">
+                <a>{t('button')}</a>{/* Use translated button text */}
+            </Button>
+        </Link>
       </div>
     </section>
   );
