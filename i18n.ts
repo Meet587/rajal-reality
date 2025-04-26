@@ -14,7 +14,8 @@ export default getRequestConfig(async ({locale}) => { // Receive locale as argum
   }
 
   return {
-    // locale is implicitly handled by getRequestConfig, no need to return it explicitly
+    locale, // Explicitly return the locale
     messages: (await import(`./src/messages/${locale}.json`)).default // Adjust path to messages
   };
 });
+
