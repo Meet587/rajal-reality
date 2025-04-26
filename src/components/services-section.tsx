@@ -36,9 +36,12 @@ export const ServicesSection: FC = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <Card key={index} className="text-center shadow-md hover:shadow-lg transition-shadow duration-300">
+            <Card
+              key={index}
+              className="text-center shadow-md hover:shadow-xl transition-all duration-300 ease-in-out hover:scale-[1.03]"
+            >
               <CardHeader className="items-center">
-                <div className="p-4 bg-accent text-accent-foreground rounded-full mb-4 inline-block">
+                <div className="p-4 bg-accent text-accent-foreground rounded-full mb-4 inline-block transition-transform duration-300 group-hover:scale-110">
                   <service.icon className="h-8 w-8" />
                 </div>
                 <CardTitle className="text-xl font-semibold text-primary mb-2">{service.title}</CardTitle>

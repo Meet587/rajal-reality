@@ -82,18 +82,21 @@ const PropertiesPage: FC = () => {
         </Card>
 
         {/* Property Listings */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {sampleProperties.map((prop) => (
-            <Card key={prop.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
-              <div className="relative w-full h-48">
+            <Card
+              key={prop.id}
+              className="group overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:scale-[1.03] flex flex-col"
+            >
+              <div className="relative w-full h-48 overflow-hidden"> {/* Added overflow-hidden here */}
                 <Image
                   src={prop.image}
                   alt={prop.title} // Alt text might not be translated easily for dynamic images
                   layout="fill"
                   objectFit="cover"
-                  className="transition-transform duration-300 group-hover:scale-105"
+                  className="transition-transform duration-300 ease-in-out group-hover:scale-110" /* Image zoom effect */
                 />
-                <span className="absolute top-2 left-2 bg-primary text-primary-foreground px-2 py-1 text-xs font-semibold rounded">
+                <span className="absolute top-2 left-2 bg-primary text-primary-foreground px-2 py-1 text-xs font-semibold rounded z-10">
                   {prop.type === 'Rent' || prop.type === 'Lease' ? <KeyRound className="inline w-3 h-3 mr-1"/> : <Tag className="inline w-3 h-3 mr-1"/>}
                   {getPropertyTypeLabel(prop.type)}
                 </span>

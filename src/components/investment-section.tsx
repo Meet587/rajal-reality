@@ -58,9 +58,12 @@ export const InvestmentSection: FC = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {investments.map((investment, index) => (
-            <Card key={index} className="flex flex-col shadow-md hover:shadow-lg transition-shadow duration-300">
+            <Card
+              key={index}
+              className="flex flex-col shadow-md hover:shadow-xl transition-all duration-300 ease-in-out hover:scale-[1.03]"
+            >
               <CardHeader className="flex flex-row items-center gap-4 pb-4">
-                <div className="p-3 bg-primary text-primary-foreground rounded-md">
+                <div className="p-3 bg-primary text-primary-foreground rounded-md transition-transform duration-300 group-hover:scale-110">
                   <investment.icon className="h-6 w-6" />
                 </div>
                 <CardTitle className="text-xl font-semibold text-primary">

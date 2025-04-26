@@ -59,7 +59,7 @@ export const Navbar: FC = () => {
         <div className="hidden md:flex items-center space-x-4">
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} passHref legacyBehavior>
-              <Button variant="ghost" className="text-foreground hover:bg-accent hover:text-accent-foreground" asChild>
+              <Button variant="ghost" className="text-foreground hover:bg-accent/80 hover:text-accent-foreground transition-colors duration-200" asChild>
                  <a> {/* Wrap content in an anchor tag for legacyBehavior */}
                     <link.icon className="mr-2 h-4 w-4" />
                     {link.label}
@@ -71,16 +71,24 @@ export const Navbar: FC = () => {
           {/* Language Switcher Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="hover:bg-accent/80 hover:text-accent-foreground transition-colors duration-200">
                 <Languages className="h-5 w-5" />
                 <span className="sr-only">{t('language')}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => switchLocale('en')} disabled={locale === 'en'}>
+              <DropdownMenuItem
+                onClick={() => switchLocale('en')}
+                disabled={locale === 'en'}
+                className="hover:bg-accent/80 focus:bg-accent/80 transition-colors duration-150 cursor-pointer"
+              >
                 {t('english')}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => switchLocale('gu')} disabled={locale === 'gu'}>
+              <DropdownMenuItem
+                onClick={() => switchLocale('gu')}
+                disabled={locale === 'gu'}
+                className="hover:bg-accent/80 focus:bg-accent/80 transition-colors duration-150 cursor-pointer"
+              >
                 {t('gujarati')}
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -92,16 +100,24 @@ export const Navbar: FC = () => {
            {/* Language Switcher Dropdown (Mobile) */}
            <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="hover:bg-accent/80 hover:text-accent-foreground transition-colors duration-200">
                 <Languages className="h-5 w-5" />
                 <span className="sr-only">{t('language')}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => switchLocale('en')} disabled={locale === 'en'}>
+              <DropdownMenuItem
+                onClick={() => switchLocale('en')}
+                disabled={locale === 'en'}
+                className="hover:bg-accent/80 focus:bg-accent/80 transition-colors duration-150 cursor-pointer"
+              >
                  {t('english')}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => switchLocale('gu')} disabled={locale === 'gu'}>
+              <DropdownMenuItem
+                 onClick={() => switchLocale('gu')}
+                 disabled={locale === 'gu'}
+                 className="hover:bg-accent/80 focus:bg-accent/80 transition-colors duration-150 cursor-pointer"
+              >
                  {t('gujarati')}
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -129,7 +145,7 @@ export const Navbar: FC = () => {
                  </Link>
                 {navLinks.map((link) => (
                   <Link key={link.href} href={link.href} passHref legacyBehavior>
-                    <Button variant="ghost" className="w-full justify-start text-foreground hover:bg-accent hover:text-accent-foreground" asChild>
+                    <Button variant="ghost" className="w-full justify-start text-foreground hover:bg-accent/80 hover:text-accent-foreground transition-colors duration-200" asChild>
                        <a> {/* Wrap content in an anchor tag for legacyBehavior */}
                          <link.icon className="mr-2 h-4 w-4" />
                          {link.label}
