@@ -29,8 +29,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en"> {/* Default lang, will be overridden by locale layout */}
-      <body
+    // Default lang, will be overridden by locale layout
+    // Removed whitespace between <html> and <body> to fix hydration error
+    <html lang="en"><body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           geistSans.variable,
@@ -40,8 +41,6 @@ export default function RootLayout({
         {/* Navbar is removed from here */}
         <main>{children}</main> {/* Wrap content in main for semantics */}
         <Toaster />
-      </body>
-    </html>
+      </body></html>
   );
 }
-
