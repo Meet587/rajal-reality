@@ -86,6 +86,20 @@ const ContactPage: FC = () => {
     setIsSubmitting(false);
   }
 
+    // Helper to split phone numbers and create links
+    const renderPhoneLinks = (phoneString: string) => {
+        const phones = phoneString.split(' / ');
+        return phones.map((phone, index) => {
+            const cleanPhone = phone.replace(/\s+/g, ''); // Remove spaces for tel link
+            return (
+                <a key={index} href={`tel:${cleanPhone}`} className="text-foreground hover:text-accent transition-colors block">
+                    {phone.trim()} {/* Display original phone number */}
+                </a>
+            );
+        });
+    };
+
+
   return (
     <div className="flex flex-col min-h-screen">
       <header className="bg-primary text-primary-foreground py-6 shadow-md">
@@ -195,17 +209,18 @@ const ContactPage: FC = () => {
                          <Mail className="h-6 w-6 text-accent" />
                          <a href={`mailto:${t('email')}`} className="text-foreground hover:text-accent transition-colors">{t('email')}</a>
                     </div>
-                     <div className="flex items-center gap-4">
-                         <Phone className="h-6 w-6 text-accent" />
-                         <a href={`tel:${t('phone')}`} className="text-foreground hover:text-accent transition-colors">{t('phone')}</a>
-                         {/* Add more phone numbers if needed */}
+                     <div className="flex items-start gap-4">
+                         <Phone className="h-6 w-6 text-accent mt-1" />
+                         <div>
+                             {renderPhoneLinks(t('phone'))}
+                         </div>
                     </div>
                      <div className="flex items-start gap-4">
                          <MapPin className="h-6 w-6 text-accent mt-1" />
                          <p className="text-foreground">
                          {t('addressLine1')}<br />
-                         {t('addressLine2')}<br />
-                         {t('addressLine3')}
+                         {t('addressLine2')}
+                         {t('addressLine3') && <><br />{t('addressLine3')}</>}
                          </p>
                     </div>
                  </CardContent>
