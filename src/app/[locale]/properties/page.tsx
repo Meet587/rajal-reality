@@ -1,5 +1,8 @@
 
-'use client';
+'use client'; // Keep this as filtering/sorting will likely be client-side
+
+// Similar to ContactPage, this uses client-side features (hooks, potentially state for filters).
+// The build error might require changes elsewhere. We won't add unstable_setRequestLocale here.
 
 import type { FC } from "react";
 import { Footer } from "@/components/footer";
@@ -22,7 +25,16 @@ const sampleProperties = [
   { id: 6, title: "Vacant Land Parcel", type: "Sale", price: "$150,000", location: "Rural Outskirts", acres: 5, image: "https://picsum.photos/seed/prop6/400/300" },
 ];
 
-const PropertiesPage: FC = () => {
+interface PropertiesPageProps {
+  params: {
+    locale: string;
+  };
+}
+
+
+const PropertiesPage: FC<PropertiesPageProps> = ({ params: { locale } }) => {
+  // unstable_setRequestLocale(locale); // Incorrect usage in a 'use client' component
+
   const t = useTranslations('PropertiesPage');
   // In a real app, use useState for filters and fetch data based on them
 
@@ -92,8 +104,8 @@ const PropertiesPage: FC = () => {
                 <Image
                   src={prop.image}
                   alt={prop.title} // Alt text might not be translated easily for dynamic images
-                  layout="fill"
-                  objectFit="cover"
+                  fill // Changed layout="fill"
+                  style={{ objectFit: "cover" }} // Changed objectFit="cover"
                   className="transition-transform duration-300 ease-in-out group-hover:scale-110" /* Image zoom effect */
                 />
                 <span className="absolute top-2 left-2 bg-primary text-primary-foreground px-2 py-1 text-xs font-semibold rounded z-10">

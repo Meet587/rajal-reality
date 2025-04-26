@@ -1,13 +1,21 @@
 
-'use client';
-
+import { unstable_setRequestLocale } from 'next-intl/server'; // Import for static rendering
 import type { FC } from "react";
 import { Footer } from "@/components/footer";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Building, DollarSign, Users, Target } from "lucide-react"; // Relevant icons
 import { useTranslations } from 'next-intl';
 
-const AboutPage: FC = () => {
+interface AboutPageProps {
+  params: {
+    locale: string;
+  };
+}
+
+const AboutPage: FC<AboutPageProps> = ({ params: { locale } }) => {
+  // Enable static rendering
+  unstable_setRequestLocale(locale);
+
   const t = useTranslations('AboutPage');
 
   return (
